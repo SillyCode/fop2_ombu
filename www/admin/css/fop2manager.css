@@ -1,0 +1,232 @@
+body {
+  font-family: 'Ubuntu', Tahoma, sans-serif;
+}
+
+table.fop2 { border-collapse: collapse; table-layout:fixed; }
+table.fop2 tr { border-top: 2px dashed #C1DAD7; }
+table.fop2 td { padding: 4px; vertical-align: top; }
+table.fop2 tr:first-child { border-top: none }
+
+table.fop2 tr:nth-of-type(even) {
+  background-color:#B4DBB3;
+}
+
+a.red {
+background: #DDa1a0;
+}
+
+a.red:hover {
+background: #cD9190;
+}
+
+a.ylw {
+background: #1b9610;
+}
+
+a.ylw:hover {
+background: #2b9920;
+}
+
+a.grn {
+background: #10D010;
+}
+
+.content {
+  padding: 5px;
+  margin-top: 50px;
+}
+
+a.ttip { text-decoration: none;}
+a.ttip:hover { text-decoration: none;}
+a.ttip:active { text-decoration: none;}
+a.ttip:visited { text-decoration: none;}
+
+#ajaxstatus {
+position: fixed;
+bottom: 0;
+right: 0;
+border: 1px solid silver;
+background: #aaaaaa;
+display:none;
+}
+
+.advanced { display:none; }
+
+.footer {
+background-color: #f2f2f2;
+color: #777;
+padding: 20px;
+text-align: right;
+border-top:2px solid #e7e7e7;
+}
+
+.loading {
+background:
+   url('../images/ajax-loader.gif')
+   no-repeat
+   right center;
+}
+
+.fixed-bottom-left
+{
+     position: fixed;
+     bottom: 0;
+     left: 0;
+}
+
+[data-color=yellow] + .popover {
+    background: yellow;
+}
+
+li a.current {
+    background: #aed;
+}
+
+.fhead {
+    background: #333;
+    color:#fff;
+    padding:10px;
+}
+
+.fieldset {
+    padding: 0.5em;
+    margin: 1em 2px 0 2px;
+}
+
+.fieldset h4 {
+    margin: -1em -0.5em 0;
+}   
+
+.fieldset h4 span {
+    float: left;
+}
+
+.fieldset h4:after {
+    border-top: 1px solid #CACACA;
+    content: ' ';
+    display: block;
+    height: 1.5em;
+    left: 20px;
+    margin: 10px 20px 0 0;
+    overflow: hidden;
+    position: relative;
+    top: 0.5em;
+}
+
+label {
+font-weight: normal;
+}
+
+.spin {
+  -webkit-animation: spin .9s infinite linear;
+  -moz-animation: spin .2s infinite linear;
+  -o-animation: spin .2s infinite linear;
+  animation: spin .2s infinite linear;
+     -webkit-transform-origin: 50% 50%;
+         transform-origin:50% 50%;
+         -ms-transform-origin:50% 50%; /* IE 9 */
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+table.table-striped>tbody>tr>td.open {
+    background-color: #eee;
+} 
+
+.scrollable-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
+
+.spinner {
+  margin: 100px auto; width: 32px; height: 32px; position: relative; display:none;
+}
+
+.cube1, .cube2 {
+  background-color: #333; width: 10px; height: 10px; position: absolute; top: 0; left: 0;
+ 
+  -webkit-animation: cubemove 1.8s infinite ease-in-out;
+  animation: cubemove 1.8s infinite ease-in-out;
+}
+
+.cube2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+@-webkit-keyframes cubemove {
+  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
+  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+  100% { -webkit-transform: rotate(-360deg) }
+}
+
+@keyframes cubemove {
+  25% {
+    transform: translateX(42px) rotate(-90deg) scale(0.5);
+    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
+  } 50% {
+    transform: translateX(42px) translateY(42px) rotate(-179deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
+  } 50.1% {
+    transform: translateX(42px) translateY(42px) rotate(-180deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+  } 75% {
+    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+  } 100% {
+    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+  }
+}
+
+div#uploadbutton {
+  overflow: hidden;
+  position: relative;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+input#csvupload {
+  height: 30px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 100px;
+  z-index: 2;
+
+  opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
+  filter: alpha(opacity=0); /* IE lt 8 */
+  -ms-filter: "alpha(opacity=0)"; /* IE 8 */
+  -khtml-opacity: 0.0; /* Safari 1.x */
+  -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
+}
+
