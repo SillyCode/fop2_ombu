@@ -6,10 +6,10 @@ require_once("config.php");
 <html>
 <head>
 <?php
-if(isset($page_title)) { 
-    echo "    <title>$page_title></title>\n"; 
+if(isset($page_title)) {
+    echo "    <title>$page_title></title>\n";
 } else {
-    echo "    <title>".TITLE."</title>\n"; 
+    echo "    <title>".TITLE."</title>\n";
 }
 ?>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -88,7 +88,7 @@ function insertParam(key, value)
 
     var kvp = document.location.search.substr(1).split('&');
 
-    var i=kvp.length; var x; while(i--) 
+    var i=kvp.length; var x; while(i--)
     {
         x = kvp[i].split('=');
 
@@ -103,7 +103,7 @@ function insertParam(key, value)
     if(i<0) {kvp[kvp.length] = [key,value].join('=');}
 
     //this will reload the page, it's likely better to store this until finished
-    document.location.search = kvp.join('&'); 
+    document.location.search = kvp.join('&');
 }
 
 function playVmail(hash,file,iconid) {
@@ -148,7 +148,7 @@ function downloadVmail(hash,file) {
 
 function downloadFile(url,pars) {
     $('#dloadfrm').attr('action',url);
-    $('#file').val(pars); 
+    $('#file').val(pars);
     $('#dloadfrm').submit();
 }
 
@@ -162,7 +162,7 @@ function downloadFile(url,pars) {
 $context   = $_SESSION[MYAP]['context'];
 $extension = $_SESSION[MYAP]['extension'];
 
-$permit    = $_SESSION[MYAP]['permit'];
+$permit    = isset($_SESSION[MYAP]['permit']) ? $_SESSION[MYAP]['permit'] : "all"; //NOTE: this is jsut for test
 $admin     = isset($_SESSION[MYAP]['admin'])?$_SESSION[MYAP]['admin']:0;
 $permisos  = preg_split("/,/",$permit);
 
@@ -180,7 +180,7 @@ if($allowed <> "yes") {
    die();
 }
 
-if($context=="") { 
+if($context=="") {
     $addcontext="";
 } else {
     $addcontext="${context}_";
@@ -204,6 +204,7 @@ $grid->set_pk('uniqueid');
 $grid->add_structure('number', 'text',null,'');
 $grid->salt("dldli3ksa");
 $grid->set_fields("calldate,IF(dst='".$extension."' OR dstchannel LIKE 'SIP/$extension-________' ,'$transinbound','$transoutbound') as direction,IF(dst='".$extension."' OR dstchannel LIKE 'SIP/$extension-________' ,src,dst) as number,duration,billsec,disposition,uniqueid");
+// $grid->set_fields("calldate,IF(dst='".$extension."' OR destination ='".$extension."' ,'$transinbound','$transoutbound') as direction,IF(dst='".$extension."' OR destination='". $extension."', src, dst) as number,duration,billsec,disposition,uniqueid");
 $grid->hide_field('uniqueid');
 $grid->no_edit_field('uniqueid');
 $grid->no_edit_field('number');
@@ -212,14 +213,17 @@ $grid->set_per_page(8);
 
 $condstring="";
 
-$mifilt = $_REQUEST['filterdir'];
+$mifilt = isset($_REQUEST['filterdir']) ? $_REQUEST['filterdir'] : "";
 
 if($mifilt=="") {
-    $condstring ="(src='$extension' OR channel LIKE 'SIP/$extension-________' OR dst='$extension' OR dstchannel LIKE 'SIP/$extension-________' ) ";
+	$condstring ="(src='$extension' OR channel LIKE 'SIP/$extension-________' OR dst='$extension' OR dstchannel LIKE 'SIP/$extension-________' ) ";
+//     $condstring ="(src='$extension' OR channel='$extension' OR dst='$extension' OR dstchannel='$extension') ";
 } else if($mifilt=="inbound") {
-    $condstring ="(dst='$extension' OR dstchannel LIKE 'SIP/$extension-________') ";
+	$condstring ="(dst='$extension' OR dstchannel LIKE 'SIP/$extension-________') ";
+//     $condstring ="(dst='$extension' OR dstchannel='$extension') ";
 } else {
-    $condstring="(src='$extension' OR channel LIKE 'SIP/$extension-________') ";
+	$condstring="(src='$extension' OR channel LIKE 'SIP/$extension-________') ";
+    $condstring="(src='$extension' OR channel='$extension') ";
 }
 
 $customboton="<form class='form-inline'><div class='form-group'>
@@ -231,12 +235,12 @@ $customboton.="</select></div>\n";
 
 $grid->add_custom_toolbar($customboton);
 
-$mifilt = $_REQUEST['filterdispo'];
+$mifilt = isset($_REQUEST['filterdispo']) ? $_REQUEST['filterdispo'] : "";
 
 if($mifilt<>"") {
     if($condstring<>"") { $condstring .= " AND "; }
     $condstring .="(disposition='".strtoupper($mifilt)."') ";
-} 
+}
 
 // Uncomment this if you want to make the cdr reports tenant aware in Thirdlane or similar setups
 // The userfield might need to be changed to the proper field
@@ -311,7 +315,6 @@ $grid->set_input_parent_style("targetextension","style='width:48%; float:right; 
 //$grid->add_validation_type('email','email');
 
 $grid->add_display_filter('number','clickdial');
-
 $grid->show_grid();
 
 function dispoColor($dispo) {

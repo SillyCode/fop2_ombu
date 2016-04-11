@@ -529,13 +529,30 @@ function print_contacts() {
    echo "<div id='records'>";
    echo "<ul class='list-group' id='contact-list' style='margin:0;'> ";
 
-    $query = "SELECT id,picture,concat(firstname,' ',lastname) AS name,company,phone1,phone2,email,address,owner FROM visual_phonebook WHERE context='$context' AND (owner='$extension' OR (owner<>'$extension' AND private='no')) AND $condition ORDER BY CONCAT(firstname,' ',lastname) ";
-    $query .= " limit $offset,$rec_limit"; 
+	$query = "SELECT id,picture,concat(firstname,' ',lastname) AS name,company,phone1,phone2,email,address,owner FROM visual_phonebook WHERE context='$context' AND (owner='$extension' OR (owner<>'$extension' AND private='no')) AND $condition ORDER BY CONCAT(firstname,' ',lastname) ";
+    $query .= " limit $offset,$rec_limit";
 
     $res = $db->consulta($query);
+// 	$id = 1;
+// 	$data = array();
+// 	$contacts = json_decode(file_get_contents("http://localhost/api/contacts/{$id}"));
+// 	foreach($contacts->data as $contact) {
+// 		$rows = array();
+// 		$rows['name']   = "{$contact->first_name} {$contact->last_name}";
+// 		$rows['id'] = $contact->contact_id;
+// 		$rows['picture'] = $contact->job_title;
+// 		$rows['company'] = $contact->organization;
+// 		$rows['phone1'] = '123123123';
+// 		$rows['phone2'] = '321321321';
+// 		$rows['email'] = $contact->email;
+// 		$rows['address'] = $contact->location;
+// 		$rows['owner'] = $contact->notes;
+// 		$data[$rows['id']] = $rows;
+// 	}
+//     foreach($data as $row) {
 
-    while($row = $db->fetch_assoc($res)) {
-        
+	while($row = $db->fetch_assoc($res)) {
+
         $initial = substr($row['name'],0,1);
         if(strtolower($initial) <> strtolower($previousinitial)) {
             echo "<li class='list-group-item chat'><h2 class='initial'>".strtoupper($initial)."</h2></li>";
