@@ -149,7 +149,7 @@ function process_csv($file) {
     }
 
     return $return;
-           
+
 }
 
 // Shows edit / insert form
@@ -195,10 +195,10 @@ function edit_form($row) {
   <div class="image-editor" style='margin-bottom:10px'>
     <input type="file" class="cropit-image-input">
     <div class="cropit-image-preview" style="background-image: url(<?php echo "${userdirectory}${picture}";?>);"  ></div>
-  
-    <div class="row" style='padding-top:10px; padding-left:15px;'> 
+
+    <div class="row" style='padding-top:10px; padding-left:15px;'>
     <div class="col-xs-6 select-image-btn btn btn-primary btn-sm"><?php echo trans('New Image');?></div>
-    <div class="col-xs-6"> 
+    <div class="col-xs-6">
 
     <div class="slider-wrapper"><span class="icon icon-image small-image"></span><input type="range" class="cropit-image-zoom-input" min="0" max="1" step="0.01"><span class="icon icon-image large-image"></span></div>
 
@@ -340,7 +340,7 @@ if($requestaction=='edit') {
         echo "$linea\n";
         $cont++;
     }
- 
+
     exit;
 } else if ($requestaction=='import') {
 
@@ -363,7 +363,7 @@ if($requestaction=='edit') {
 
     if($name_upload == "") {
         $error[]=array('kind'=>'warning','message'=>trans('Empty file?'));
-    } 
+    }
     if(count($error)>0) { print_messages($error); } else {
         // procesa csv
         $mensaje = process_csv($userdirectory."contactsimportCSV.csv");
@@ -371,7 +371,7 @@ if($requestaction=='edit') {
     }
 
     print_contacts();
-   
+
 } else if ($requestaction=='delete') {
 
     $id = $_REQUEST['id'];
@@ -474,7 +474,7 @@ function print_contacts() {
     } else {
         $previousinitial='1';
     }
- 
+
     $rec_limit = 10;
     if( isset($_GET{'page'} ) ) {
         $page = $_GET{'page'} + 1;
@@ -511,7 +511,7 @@ function print_contacts() {
                         </li>
                     </ul>
                 </div>
-                
+
                 <div class='row'>
                     <div class='col-xs-12'>
                         <div class='input-group c-search'>
@@ -579,10 +579,10 @@ function print_contacts() {
                     </li> ";
     }
 
-    echo "<li class='chat' style='display:none;'><a class='first' href=\"contacts.php?initial=$initial&page=$page&search=$search\">Next $rec_limit Records</a></li>"; 
+    echo "<li class='chat' style='display:none;'><a class='first' href=\"contacts.php?initial=$initial&page=$page&search=$search\">Next $rec_limit Records</a></li>";
     echo "</ul>";
     echo "</div></div></div>";
- 
+
 
 }
 ?>

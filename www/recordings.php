@@ -6,10 +6,10 @@ require_once("config.php");
 <html lang="en">
 <head>
 <?php
-if(isset($page_title)) { 
-    echo "    <title>$page_title></title>\n"; 
+if(isset($page_title)) {
+    echo "    <title>$page_title></title>\n";
 } else {
-    echo "    <title>".TITLE."</title>\n"; 
+    echo "    <title>".TITLE."</title>\n";
 }
 ?>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -126,7 +126,7 @@ function downloadRecording(hash,file) {
 
 function downloadFile(url,pars) {
     $('#dloadfrm').attr('action',url);
-    $('#file').val(pars); 
+    $('#file').val(pars);
     $('#dloadfrm').submit();
 }
 
@@ -179,7 +179,7 @@ if($allowed <> "yes") {
    die();
 }
 
-if($context=="") { 
+if($context=="") {
     $addcontext="";
 } else {
     $addcontext="${context}_";
@@ -249,8 +249,8 @@ function downloadfile($filename) {
    return "<div id='$uniuni' class='audioButton' title='Play' onclick='playRecording(\"$hash\",\"$filename\",\"$uniuni\")'><img src='images/pixel.gif' width=16 height=16 alt='pixel' border='0' /></div><div onclick='javascript:downloadRecording(\"$hash\",\"$filename\");' class='audioButton dload' title='Download' id='downloadvm_$uniuni'><img src='images/pixel.gif' width=16 height=16 alt='pixel' border='0' /></div>";
 }
 
-function delete_recording($obj) { 
-    $filename = ($obj[filename]); 
+function delete_recording($obj) {
+    $filename = ($obj[filename]);
     unlink($filename);
 }
 
