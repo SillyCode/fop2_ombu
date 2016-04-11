@@ -1,0 +1,7 @@
+#fop2 {
+	width: 100%;
+	height: 800px;
+	overflow: auto;
+	position: relative;
+	border:0;
+}
