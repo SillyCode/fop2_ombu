@@ -18,7 +18,8 @@ $CDRDBTABLE = "asterisk.cdr";
 $phpver = substr(phpversion(),0,1);
 $DBSETUP="fop2setup";
 
-define('DEBUG',true);
+define('DEBUG',false);
+define('SESSIONDEBUG',true);
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -26,7 +27,7 @@ ini_set('log_errors',     0);
 ini_set("session.cookie_lifetime", "0");    // conservar session hasta que se cierre el navegador
 ini_set("session.gc_maxlifetime", 60*60*9); // duracion maxima de la session
 
-date_default_timezone_set('UTC');
+// date_default_timezone_set('UTC');
 
 // Site specific
 define("MYAP",  "FOP2");

@@ -72,7 +72,7 @@ THE SOFTWARE.
 					sticky: (values.sticky) ? values.sticky : false,
 					identifier: (values.identifier) ? values.identifier : null,
                     timeout: (values.timeout) ? values.timeout * 1000 : 6000,
-					url: (values.url) ? values.url : ''
+					url: (values.url) ? Base64.decode(values.url) : ''
 				};
 				
 				if(this.prism) {

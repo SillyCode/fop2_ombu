@@ -671,3 +671,6 @@ msgstr "S'il vous plaît affecter le champ d'extension a une colonne de données
 
 msgid "Tenants"
 msgstr "Locataires"
+
+msgid "Version"
+msgstr "Version"

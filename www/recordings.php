@@ -139,6 +139,7 @@ function downloadFile(url,pars) {
 
 $context   = $_SESSION[MYAP]['context'];
 $extension = $_SESSION[MYAP]['extension'];
+// $permit    = $_SESSION[MYAP]['permit'];
 $permit    = isset($_SESSION[MYAP]['permit']) ? $_SESSION[MYAP]['permit'] : 'all'; //NOTE: this is purly for testing. Not suppose to permit all.
 $admin     = isset($_SESSION[MYAP]['admin'])?$_SESSION[MYAP]['admin']:0;
 $permisos  = preg_split("/,/",$permit);

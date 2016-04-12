@@ -43,3 +43,22 @@ $lang[$mylang]['Search']     = "Αναζητηση";
 $lang[$mylang]['Private']    = "Ιδιωτικό";
 $lang[$mylang]['Upload']     = "Ανεβάσετε";
 $lang[$mylang]['New Image']  = "νέα εικόνα";
+
+// CDR
+$lang[$mylang]['All']  = "Όλα";
+$lang[$mylang]['inbound']  = "Εισερχόμενη";
+$lang[$mylang]['outbound']  = "Εξερχόμενη";
+$lang[$mylang]['Answered']  = "Απαντήθηκε";
+$lang[$mylang]['No answer']  = "Αναπάντητη";
+$lang[$mylang]['Busy']  = "Κατειλημμένο";
+$lang[$mylang]['Failed']  = "Απέτυχε";
+$lang[$mylang]['ANSWERED']  = "Απαντήθηκε";
+$lang[$mylang]['NO ANSWER']  = "Αναπάντητη";
+$lang[$mylang]['BUSY']  = "Κατειλημμένο";
+$lang[$mylang]['FAILED']  = "Απέτυχε";
+$lang[$mylang]['Date']  = "Ημερομηνία";
+$lang[$mylang]['Direction']  = "Κατεύθυνση";
+$lang[$mylang]['Number']  = "Αριθμός";
+$lang[$mylang]['Duration']  = "Διάρκεια";
+$lang[$mylang]['Billsec']  = "Δευτ. Χρε.";
+$lang[$mylang]['Disposition']  = "Διάταξη";

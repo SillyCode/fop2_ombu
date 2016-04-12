@@ -148,6 +148,27 @@ foreach($panelcontexts as $panelcontext=>$contextname) {
                     }
                 }
 
+                if(isset($fop2_buttons[$chan]['email']) && isset($dat['email'])) {
+                    $fop2extv  = $fop2_buttons[$chan]['email'];
+                    if($dat['email']<>'') {
+                        $query = "UPDATE fop2buttons SET email='%s' WHERE device='%s'";
+                        $db->consulta($query,array($dat['email'],$chan));
+                        $need_update=1;
+                    }
+                }
+
+                // Sync names for extensions
+                if(isset($fop2_buttons[$chan]['name']) && isset($dat['name'])) {
+                    $fop2name  = $fop2_buttons[$chan]['name'];
+                    if($dat['name']<>$fop2name) {
+                        $query = "UPDATE fop2buttons SET label='%s' WHERE device='%s'";
+                        $db->consulta($query,array($dat['name'],$chan));
+                        $need_update=1;
+                    }
+                }
+
+
+
             }
         }
     }

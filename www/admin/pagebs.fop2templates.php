@@ -216,7 +216,7 @@ $delURL = SELF.'?'.$_SERVER['QUERY_STRING'].'&action=delete';
             echo " checked ";
         }
 
-        echo "> ".$datarray['name'];;
+        echo "> ".__($datarray['name']);
         echo "</label></div>";
     }
 

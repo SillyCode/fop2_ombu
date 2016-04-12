@@ -480,14 +480,13 @@ function print_contacts() {
         $page = $_GET{'page'} + 1;
         $offset = $rec_limit * $page ;
     } else {
-        $page = 1;
+        $page = 0;
         $offset = 0;
     }
     $left_rec = $rec_count - (($page-1) * $rec_limit);
-
+    $tot_page = ceil($rec_count / $rec_limit);
 
     echo "
-
     <div class='row'>
         <div class='col-xs-12 col-sm-12'>
             <div class='panel panel-default'>
@@ -529,10 +528,10 @@ function print_contacts() {
    echo "<div id='records'>";
    echo "<ul class='list-group' id='contact-list' style='margin:0;'> ";
 
-	$query = "SELECT id,picture,concat(firstname,' ',lastname) AS name,company,phone1,phone2,email,address,owner FROM visual_phonebook WHERE context='$context' AND (owner='$extension' OR (owner<>'$extension' AND private='no')) AND $condition ORDER BY CONCAT(firstname,' ',lastname) ";
+    $query = "SELECT id,picture,concat(firstname,' ',lastname) AS name,company,phone1,phone2,email,address,owner FROM visual_phonebook WHERE context='$context' AND (owner='$extension' OR (owner<>'$extension' AND private='no')) AND $condition ORDER BY CONCAT(firstname,' ',lastname) ";
     $query .= " limit $offset,$rec_limit";
-
     $res = $db->consulta($query);
+
 // 	$id = 1;
 // 	$data = array();
 // 	$contacts = json_decode(file_get_contents("http://localhost/api/contacts/{$id}"));
@@ -551,7 +550,7 @@ function print_contacts() {
 // 	}
 //     foreach($data as $row) {
 
-	while($row = $db->fetch_assoc($res)) {
+    while($row = $db->fetch_assoc($res)) {
 
         $initial = substr($row['name'],0,1);
         if(strtolower($initial) <> strtolower($previousinitial)) {
@@ -596,7 +595,9 @@ function print_contacts() {
                     </li> ";
     }
 
-    echo "<li class='chat' style='display:none;'><a class='first' href=\"contacts.php?initial=$initial&page=$page&search=$search\">Next $rec_limit Records</a></li>";
+    if($page<>$tot_page) {
+        echo "<li class='chat' style='display:none;'><a class='first' href=\"contacts.php?initial=$initial&page=$page&search=$search\">Next $rec_limit Records</a></li>";
+    }
     echo "</ul>";
     echo "</div></div></div>";
 

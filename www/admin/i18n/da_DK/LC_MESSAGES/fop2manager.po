@@ -655,3 +655,6 @@ msgstr "Por favor asigne el campo extensión a alguna columna de datos."
 
 msgid "Tennats"
 msgstr "Lejere"
+
+msgid "Version"
+msgstr "Version"

@@ -21,6 +21,11 @@ $DBPASS="ombutel";
 $DBNAME="fop2";
 // include_once("/etc/fop2/webadmin/admin_dbpass.php");
 
+
+// This is the preference sqlite database for FOP2 User and Context Preferences
+$SQLITEDB="/etc/fop2/fop2settings.db";
+
+
 // If you have a PBX that cannot be auto detected, like MiRTA, specify the engine
 // here. Otherwise leave this line commented. Available options: mirtapbx, custom
 //

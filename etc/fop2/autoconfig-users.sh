@@ -116,18 +116,18 @@ let FOP2ADMIN=FOP2ADMIN+1
 done < <( mysql -NB -u $DBUSER $DBPASS -h $DBHOST $DBNAME -e "SHOW tables FROM \`$DBNAME\` LIKE 'fop2users'";  )
 
 # Verify if the fop2 plugins table exists
-#while read line; do
-#let FOP2PLUGIN=FOP2PLUGIN+1
-#done < <( mysql -NB -u $DBUSER $DBPASS -h $DBHOST $DBNAME -e "SHOW tables FROM \`$DBNAME\` LIKE 'fop2plugins'" )
-#else
-#echo "; Problem connecting to mysql, using voicemail.conf as base user config"
-#echo
+while read line; do
+let FOP2PLUGIN=FOP2PLUGIN+1
+done < <( mysql -NB -u $DBUSER $DBPASS -h $DBHOST $DBNAME -e "SHOW tables FROM \`$DBNAME\` LIKE 'fop2plugins'" )
+else
+echo "; Problem connecting to mysql, using voicemail.conf as base user config"
+echo
 fi
 
 
 if [ "$FOP2PLUGIN" -gt 0 ]; then
 # Query including plugins from latest fop2manager/fop2admin
-MAINQUERY="set @@group_concat_max_len=32768; SELECT CONCAT('user=',fop2users.exten,':',if(secret='','EMPTYSECRET',secret),':',permissions,':',(select IF(group_concat(fop2groups.name) is NULL,'',group_concat(DISTINCT(fop2groups.name))) from fop2UserGroup LEFT OUTER JOIN fop2groups on fop2groups.id=fop2UserGroup.id_group where fop2UserGroup.exten=fop2users.exten),':') as user, (select IF(group_concat(fop2plugins.rawname) is NULL,'',group_concat(fop2plugins.rawname)) from fop2UserPlugin LEFT OUTER JOIN fop2plugins on fop2plugins.rawname=fop2UserPlugin.id_plugin WHERE fop2UserPlugin.exten=fop2users.exten) as plg1, (SELECT concat('aapa',IF(group_concat(rawname) is NULL,'',group_concat(rawname))) FROM fop2plugins WHERE global=1 limit 1) as plg2 FROM fop2users LEFT JOIN fop2contexts ON context_id=fop2contexts.id WHERE %CONDITION%"
+MAINQUERY="set @@group_concat_max_len=32768; SELECT CONCAT('user=',fop2users.exten,':',if(secret='','EMPTYSECRET',secret),':',permissions,':',(select IF(group_concat(fop2groups.name) is NULL,'',group_concat(DISTINCT(fop2groups.name))) from fop2UserGroup LEFT OUTER JOIN fop2groups on fop2groups.id=fop2UserGroup.id_group WHERE fop2UserGroup.exten=fop2users.exten AND fop2UserGroup.context_id=fop2users.context_id),':') as user, (select IF(group_concat(fop2plugins.rawname) is NULL,'',group_concat(fop2plugins.rawname)) from fop2UserPlugin LEFT OUTER JOIN fop2plugins on fop2plugins.rawname=fop2UserPlugin.id_plugin WHERE fop2UserPlugin.exten=fop2users.exten) as plg1, (SELECT concat('aapa',IF(group_concat(rawname) is NULL,'',group_concat(rawname))) FROM fop2plugins WHERE global=1 limit 1) as plg2 FROM fop2users LEFT JOIN fop2contexts ON context_id=fop2contexts.id WHERE %CONDITION%"
 else
 # Query without including plugins from latest fop2manager/fop2admin
 MAINQUERY="set @@group_concat_max_len=32768; SELECT CONCAT('user=',fop2users.exten,':',if(secret='','EMPTYSECRET',secret),':',permissions,':',(select IF(group_concat(fop2groups.name) is NULL,'',group_concat(fop2groups.name)) from fop2UserGroup left outer join fop2groups on fop2groups.id=fop2UserGroup.id_group where fop2UserGroup.exten=fop2users.exten),':') FROM fop2users"

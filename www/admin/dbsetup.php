@@ -103,7 +103,7 @@ $querycreate['fop2UserGroup'] = "CREATE TABLE IF NOT EXISTS `fop2UserGroup` (
     `exten` varchar(30) NOT NULL,
     `id_group` int(11) NOT NULL,
     PRIMARY KEY  (`id`),
-    UNIQUE KEY `uni` (`exten`,`id_group`)
+    UNIQUE KEY `uni` (`exten`,`id_group`,`context_id`)
   ) DEFAULT CHARSET=UTF8;";
 
 $querycreate['fop2PermGroup'] = "CREATE TABLE IF NOT EXISTS `fop2PermGroup` (
@@ -238,6 +238,22 @@ foreach($unlink_old_file as $file=>$nothing) {
 }
 
 if($db->is_connected()) {
+
+    // Modificamos indice para soporte multi contexto
+    $res = $db->consulta("DESC fop2UserGroup");
+    if($res) {
+       $res = $db->consulta("SHOW INDEX FROM fop2UserGroup where Key_name='uni'");
+       if($res) {
+          $cont=0;
+          while($row = $db->fetch_assoc($res)) {
+             $cont++;
+          }
+          if($cont<3) {
+              $db->consulta("alter table fop2UserGroup drop index uni");
+              $db->consulta("alter table fop2UserGroup add unique uni (exten,id_group,context_id)");
+          }
+       }
+    }
 
     $updated_field = array();
     $alldbfields   = array();

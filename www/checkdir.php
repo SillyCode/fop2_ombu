@@ -116,7 +116,7 @@ if($largo > 2) { // prevent short numbers (extensions) from trigger a lookup
                 $picture = "./uploads/".$picture;
             }  else {
                 if($fromqueue<>'') {
-                    $picture = "./images/user-gropu.png";
+                    $picture = "./images/user-group.png";
                 } else {
                     $picture = "./images/user.png";
                 }

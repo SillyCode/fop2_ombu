@@ -101,10 +101,10 @@ function system_all_buttons() {
         $return = elastix_check_extension_usage();
     } else if($config_engine == 'mirtapbx') {
         $return = mirtapbx_check_extension_usage();
-    } else if($config_engine == 'custom') {
-        $return = custom_check_extension_usage();
     } else if($config_engine == 'ombutel') {
         $return = ombutel_check_extension_usage();
+	} else if($config_engine == 'custom') {
+        $return = custom_check_extension_usage();
     } else {
         // Default to astdb check if engine is unknown
         $return = astdb_check_extension_usage();
@@ -1188,8 +1188,9 @@ function fop2_del_group($id) {
 }
 
 function fop2_edit_setting($parameter,$value,$context) {
+    global $SQLITEDB;
     $extension='SETTINGS';
-    $db2 = new dbcon('sqlite:/etc/fop2/fop2settings.db');
+    $db2 = new dbcon("sqlite:$SQLITEDB");
     try {
         $result = $db2->consulta("UPDATE setup SET value=%s WHERE context=%s AND extension=%s AND parameter=%s",array($value,$context,$extension,$parameter));
         return $result;
@@ -1328,6 +1329,8 @@ function fop2_set_button_order($vars) {
             $exten  = $partes[1];
             $type   = $partes[0];
         }
+
+        if(!isset($vars['offset'])) { $vars['offset']=0; }
 
         $exten = preg_replace("/^trunkout/","OUT_",$exten);
         $final_orden = $orden + $vars['offset'];
@@ -1793,6 +1796,8 @@ function fop2_print_config_form($rawname) {
        if($formmulti=='yes') {
            $multiform[$formname]      = $formdefault;
            $multiform_type[$formname] = $formtype;
+           $multiform_encoded[$formname] = $formencoded;
+           $multiform_format[$formname] = $formformat;
        }
     }
     $ret.="</fieldset>\n";
@@ -1801,8 +1806,14 @@ function fop2_print_config_form($rawname) {
         if(is_array($val)) {
             $ret.="<fieldset id='form-$rawname-$section' style='margin-top:10px;'><legend style='border-top:1px solid #aaa;'>$section</legend>\n";
             foreach($multiform as $formname=>$formdefault) {
+
+
                 $formtype = $multiform_type[$formname];
+                $formencoded = $multiform_encoded[$formname];
+                $formformat = $multiform_format[$formname];
+
                 $formval = (isset($ini_array[$section][$formname]))?$ini_array[$section][$formname]:$formdefault;
+                if($formencoded=='yes') { $formval = base64_decode($formval); }
 
                 $partes_name       = preg_split("/_/",$formname);
                 $finalname         = '';
@@ -1811,11 +1822,42 @@ function fop2_print_config_form($rawname) {
                 }
 
                 $ret.="<div class='form-group'>\n";
-                $ret.="<label class='col-sm-2 control-label' for='$rawname-".$formname."-$section'>$finalname:</label>";
-                $ret.="<div class='col-sm-10'>\n";
-                $ret.="<input class='form-control' type='".$fftype[$formtype]."' name='$rawname-".$formname."-$section' id='$rawname-".$formname."-$section' value='".htmlspecialchars($formval)."'>";
-                $ret.="</div>\n";
-                $ret.="</div>\n";
+
+       $ret.="<label class='col-sm-3 control-label' for='$rawname-".$formname."-$section'>";
+       $finalname='';
+       foreach($partes_name as $parte) {
+           $finalname.=" ".ucfirst($parte);
+       }
+       $ret.="$finalname:</label>";
+       $ret.="<div class='col-sm-9'>\n";
+
+      if($formtype=="text") {
+           if($formformat <> '') {
+              $formatattr = " data-format='$formformat' ";
+           } else {
+              $formatattr = '';
+           }
+           $ret.="<textarea class='form-control' rows=4 ";
+           $ret.="name='$rawname-".$formname."-$section' id='$rawname-".$formname."-$section' $formatattr>".htmlspecialchars($formval)."</textarea>";
+       } else if($formtype=="bool") {
+           $ret.="<input type='hidden' value='0' name='$rawname-".$formname."-$section' id='$rawname-".$formname."-$section'>\n";
+           $ret.="<input type='checkbox' data-on-text='".__('Yes')."' data-off-text='".__('No')."' class='chk' name='$rawname-".$formname."-$section' id='$rawname-".$formname."-$section' value='1' ";
+           if($formval==1) { $ret.=" checked "; }
+           $ret.=">";
+       } else {
+           $ret.="<input class='form-control' type='".$fftype[$formtype]."' ";
+           $ret.="name='$rawname-".$formname."-$section' id='$rawname-".$formname."-$section' value=\"".htmlspecialchars($formval)."\">";
+       }
+
+       $ret.="</div>\n";
+       $ret.="</div>\n";
+
+
+//                $ret.="<label class='col-sm-2 control-label' for='$rawname-".$formname."-$section'>$finalname:</label>";
+//                $ret.="<div class='col-sm-10'>\n";
+//                $ret.="<input class='form-control' type='".$fftype[$formtype]."' name='$rawname-".$formname."-$section' id='$rawname-".$formname."-$section' value='".htmlspecialchars($formval)."'>";
+//                $ret.="</div>\n";
+//                $ret.="</div>\n";
             }
             $ret.="<button class='btn btn-default pull-right' id='removesection-$rawname-$section' onClick='fop2_removeSection(this.id); return false;'>".__('Remove Section')."</button><br/>";
             $ret.="</fieldset>\n";
@@ -1906,10 +1948,10 @@ function plugin_download($itemid, $mirror) {
         //$xml    = simplexml_load_string($pluginxml);
         //$data   = simpleXMLToArray($xml);
         //$global = (is_array($data['global']) && count($data['global']==0))?0:1;
-        $fp=fopen("/tmp/borrameplugin.log","a");
+        //$fp=fopen("/tmp/borrameplugin.log","a");
         //fputs($fp,print_r($data));
-        fputs($fp,"name $name, rawname $rawname, version $version, global $global, desc $description\n");
-        fclose($fp);
+        //fputs($fp,"name $name, rawname $rawname, version $version, global $global, desc $description\n");
+        //fclose($fp);
         $results = $db->consulta( "REPLACE INTO fop2plugins (rawname, name, version, description, global) values ('".$db->escape_string($rawname)."','".$db->escape_string($name)."','".$db->escape_string($version)."','".$db->escape_string($description)."','$global') ");
         die('OK');
     } else {
@@ -2119,10 +2161,10 @@ function fop2_populate_contexts() {
         $panelcontexts = elastix_populate_contexts_from_tenants();
     } else if($config_engine=='mirtapbx') {
         $panelcontexts = mirtapbx_populate_contexts_from_tenants();
-    } else if($config_engine=='custom') {
-        $panelcontexts = custom_populate_contexts_from_tenants();
     } else if($config_engine=='ombutel') {
         $panelcontexts = ombutel_populate_contexts_from_tenants();
+	} else if($config_engine=='custom') {
+        $panelcontexts = custom_populate_contexts_from_tenants();
     } else {
         $panelcontexts[0]='GENERAL';
     }

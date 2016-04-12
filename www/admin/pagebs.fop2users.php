@@ -288,7 +288,7 @@ if(count($results)>0) {
             echo " checked ";
         }
 
-        echo "> ".$datarray['name'];;
+        echo "> ".__($datarray['name']);
         echo "</label></div>";
     }
 

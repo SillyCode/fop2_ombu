@@ -184,7 +184,7 @@ function extensions_check_extensions_freepbx($exten=true) {
         $vmprefix=$results[0]['value'];
     }
     if($vmprefix=='') {
-        $results = $db->select("IFNULL(customcode,defaultcode) as value","$database.featurecodes","","modulename='voicemail' AND featurename='directdialvoicemail'");
+        $results = $db->select("IF(customcode='' or customcode is null,defaultcode,customcode) AS value","$database.featurecodes","","modulename='voicemail' AND featurename='directdialvoicemail'");
         if(is_array($results)) {
             $vmprefix=$results[0]['value'];
         }

@@ -41,6 +41,7 @@
 	</menu>
 	<description>FOP2 Manager: Allow you to configure FOP2 users, buttons, templates, etc.</description>
 	<changelog>
+        *1.1.1*   Fixes for multi tenant (mirta,thirdlane). Sync labels in FreePBX automagically. Plugin setting sections honor types.
         *1.1.0*   Fix plugin section prompt to fit new alertify syntax
         *1.0.9*   Real time filter in users tab. Updated alertify library. Mass update of button metadata via CSV file. Option to exclude context in multi tenant.
         *1.0.8*   General Settings now available via FOP2 Manager (and not from presence.js). Improved plugin config handlers.

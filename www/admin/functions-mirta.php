@@ -35,7 +35,7 @@ function mirtapbx_check_extension_usage() {
     }
 
     $cont=0;
-    $fields= "CONCAT(ex_tech,'/',ex_number,'-',te_code) as dial,ex_number as extension,te_code as context,ex_name as name,concat(ex_number,'@',te_code) as mailbox,ex_webpassword as vmpin, fop2contexts.id as context_id,ex_trunk,CONCAT(ex_number,'-',te_code) AS extrachannel, ex_id, te_code ";
+    $fields= "CONCAT(ex_tech,'/',ex_number,'-',te_code) as dial,ex_number as extension,te_code as context,ex_name as name,concat(ex_number,'@',te_code) as mailbox,ex_webpassword as vmpin, fop2contexts.id as context_id,ex_trunk,CONCAT(ex_tech,'/',ex_number,'_',te_code) AS extrachannel, ex_id, te_code ";
     $results = $db->select($fields,"asterisk.ex_extensions","LEFT JOIN te_tenants on ex_te_id=te_tenants.te_id LEFT JOIN fop2contexts on cast(te_code as char(50))=cast(fop2contexts.context as char(50))",$where,"","","");
 
     if(is_array($results)) {
@@ -49,8 +49,9 @@ function mirtapbx_check_extension_usage() {
             $contprint = sprintf("%03d",$cont);
             $cont++;
 
-            $thisexten            = $result['extension'];
-            $vmpin                = $result['vmpin'];
+            $thisexten        = $result['extension'];
+            $vmpin            = $result['vmpin'];
+            if ( $vmpin=="" ) { $vmpin=$thisexten; }
 
             //$vmemail   = $result['email'];
 

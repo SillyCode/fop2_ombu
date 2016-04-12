@@ -286,7 +286,7 @@ function thirdlanedb_check_extension_usage() {
     $extenlist = array();
 
     if($panelcontext<>'' && $panelcontext<>'GENERAL') {
-        $where = "tenantid = '$panelcontext' ";
+        $where = "u.tenantid = '$panelcontext' ";
     } else {
         $where = "";
     }
@@ -301,11 +301,11 @@ function thirdlanedb_check_extension_usage() {
     $fields.= "u.mobile AS external, s.context AS context, u.ext as extension, ";
     $fields.= "u.mailbox AS mailbox, d.department AS `group`, u.tenantid as context_id";
 
-    $joins.= "LEFT JOIN directory d ON u.ext=d.ext ";
+    $joins= "LEFT JOIN directory d ON u.ext=d.ext ";
     $joins.= "LEFT JOIN sip_users s ON s.name=substr(u.phones,5)";
 
 
-    $results = $db->select($fields,"user_extensions u",$joins,"u.$where","name");
+    $results = $db->select($fields,"user_extensions u",$joins,"$where","name");
 
     if(is_array($results)) {
         foreach ($results as $result) {

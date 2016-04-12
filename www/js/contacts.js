@@ -93,31 +93,37 @@ $(function () {
     $('#records').jscroll({
         nextSelector : "a.first",    
         contentSelector : "li.chat",
+        debug: true,
         callback: function() { $('[data-toggle="tooltip"]').tooltip(); },
         loadingHtml: '<i class="fa fa-spinner fa-spin"></i>'
     });
 
      function searchFunction(searchTerm) {
-          console.log('1 search '+searchTerm);
-          myurl = insertParam(window.location.href,'search',searchTerm);
+          var url=window.location.href;
+          var lastChar = url.substr(url.length - 1);          
+          if(lastChar=='#') {
+              url=url.substr(0,-1);
+          }
+          myurl = insertParam(url,'search',searchTerm);
+          myurl = myurl.replace(/&?action=([^&]$|[^&]*)/i, "");
+          myurl = myurl.replace(/&?id=([^&]$|[^&]*)/i, "");
           var pane = $('#records');
           pane.load(myurl+' #contact-list', function() { 
-            console.log('2 search '+searchTerm);
-            currenthref = $('#records').data('jscroll').nextHref;
-            console.log(currenthref);
-            var newhref = insertParam(currenthref,'search',searchTerm);
-            console.log(newhref);
-            if(searchTerm.length==0) {
-                newhref = insertParam(newhref,'page','1'); 
-                newhref = insertParam(newhref,'initial','A'); 
-            }
-            console.log(newhref);
-            $('#records').data('jscroll').nextHref=newhref+" li.chat";
+            $('#records').removeData('jscroll');
+            $('#records').jscroll({
+                nextSelector : "a.first",
+                contentSelector : "li.chat",
+                debug: true,
+                callback: function() { $('[data-toggle="tooltip"]').tooltip(); },
+                loadingHtml: '<i class="fa fa-spinner fa-spin"></i>'
+            });
           });
-
     }
 
     function insertParam(mystring, key, value) {
+        console.log("insert param "+mystring);
+        if(mystring === false) { return; }
+        if(typeof mystring == 'undefined') { return; }
         key = encodeURI(key); value = encodeURI(value);
 
         if(mystring.indexOf('?')>0) {
@@ -127,7 +133,6 @@ $(function () {
            kvp = [];
            part = [ mystring, '' ];
         }
-    
 
         var i=kvp.length; var x; while(i--) 
         {

@@ -591,7 +591,7 @@
                 .attr('data-gs-height', o.attr('data-gs-height'))
                 .show();
             node.el = self.placeholder;
-
+            window.resizinggrid=0;
             el.resizable('option', 'minWidth', cell_width * (node.min_width || 1));
             el.resizable('option', 'minHeight', self.opts.cell_height * (node.min_height || 1));
         };

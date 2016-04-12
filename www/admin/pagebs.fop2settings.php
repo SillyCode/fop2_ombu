@@ -101,7 +101,7 @@ $enum['language']["'pt_BR'"] = 'Português';
 $enum['language']["'ru'"]    = 'Русский';
 $enum['language']["'se'"]    = 'Svenska';
 $enum['language']["'tr'"]    = 'Türkçe';
-$enum['language']["'zh'"]    = '简体中文'; 
+$enum['language']["'zh'"]    = '简体中文';
 
 
 
@@ -126,12 +126,11 @@ switch ($action) {
         break;
 }
 
-
-$db2 = new dbcon('sqlite:/etc/fop2/fop2settings.db');
+$db2 = new dbcon("sqlite:$SQLITEDB");
 $result = $db2->consulta("SELECT * FROM setup WHERE extension='SETTINGS' AND context='$mycontext'");
 
 $settings = array();
-while($row = $db2->fetch_assoc($result)) { 
+while($row = $db2->fetch_assoc($result)) {
     $settings[$row['context']][$row['parameter']]=$row['value'];
 }
 
@@ -216,7 +215,7 @@ if($itemid<>'') {
 <div class="col-md-12">
 
 <div class='fieldset'>
-<?php 
+<?php
 if($itemid<>'') {
 
   if(isset($helptext[$itemid])) {
@@ -247,7 +246,7 @@ if($itemid<>'') {
       }
   } else {
       echo "<input type='text' class='form-control' name='val$itemid' value='$valor'>";
-  } 
+  }
   echo "</div></div>";
 }
 ?>
@@ -304,11 +303,11 @@ if($action=='save' && $error==0) {
     $('#fop2reload').twinkle( { "effect": "drops", "effectOptions": { color: "rgba(255,0,0,0.5)", radius: 200, duration: 2000, width: 2, count: 10, delay: 700 }});
 <?php
 } else {
-if(isset($_SESSION[MYAP]['needsreload'])) { 
+if(isset($_SESSION[MYAP]['needsreload'])) {
 ?>
     $('#fop2reload').show();
     $('#fop2reload').twinkle( { "effect": "drops", "effectOptions": { color: "rgba(255,0,0,0.5)", radius: 200, duration: 2000, width: 2, count: 10, delay: 700 }});
-<?php 
+<?php
 }
 }
 ?>

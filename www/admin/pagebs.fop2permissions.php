@@ -195,7 +195,7 @@ $groups = array_merge($predefined_groups,$groupsdb);
             echo " checked ";
         }
 
-        echo "> ".$datarray['name'];;
+        echo "> ".__($datarray['name']);
         echo "</label></div>";
     }
 

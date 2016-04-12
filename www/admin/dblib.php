@@ -23,7 +23,7 @@ class dbcon {
      * @return void
      */
     public function __construct($host, $usuario='', $clave='', $dbname='fop2', $persistente = true, $conectar_ya = true) {
-
+  
         $this->host    = $host;
         $this->usuario = $usuario;
         $this->clave   = $clave;
@@ -73,7 +73,7 @@ class dbcon {
     /**
      * Consulta la base de datos
      *
-     * @param string $query SQL query
+     * @param string $query SQL query 
      * @return resource database result set
      */
     public function consulta($query) {
@@ -330,12 +330,12 @@ class dbcon {
     public function securize_query($args) {
 
         $query = array_shift($args);
-
-
+  
+        
         if (count($args) > 0){
             $newval = array();
             foreach($args as $oldval) {
-               if(is_array($oldval)) {
+               if(is_array($oldval)) { 
                    foreach($oldval as $oldval_element) {
                        $newval[] = $this->escape_string($oldval_element);
                    }

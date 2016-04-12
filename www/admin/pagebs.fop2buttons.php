@@ -254,7 +254,7 @@ function print_section($tipocorto, $tipo, $cuantos, $page=1) {
     $page--;
     $total_pages  = ceil($cuantos / $per_page);
     $first_record = $per_page * $page;
-    $last_record  = $first_record + $per_page;
+    $last_record  = $first_record + $per_page; 
 
     $conta=0;
 
@@ -617,12 +617,12 @@ function pre_process_csv($req) {
         $errors[]=array('kind'=>'warning','message'=>__('Empty file?'));
     }
 
-    if(count($errors)==0) {
+    if(count($errors)==0) { 
         // procesa csv
         $csv = new parseCSV();
         $csv->heading = false;
         $csv->auto($userdirectory."massupdate.csv");
-
+       
         $fields=array();
         $fields[''] = '';
         $fields['extension'] = 'Extension';
@@ -635,7 +635,7 @@ function pre_process_csv($req) {
         foreach($fields as $key=>$val) {
            $opt.="<option value='$key'>$val</option>\n";
         }
-
+ 
         $rows = count($csv->data[0]);
         $serialized = base64_encode(json_encode($csv->data));
 
@@ -668,7 +668,7 @@ echo "<div class='row'>
         }
         echo "</tr>";
         echo "<tr>";
-
+ 
         for($a=0;$a<$rows;$a++) {
              echo "<td>".$csv->data[0][$a]."</td>";
         }
@@ -716,7 +716,7 @@ function mass_import($req) {
          $query = "UPDATE fop2buttons SET ".$updatedfields." WHERE exten='$extension'";
          $res = $db->consulta($query);
          $count++;
-
+        
      }
      return $count;
 }

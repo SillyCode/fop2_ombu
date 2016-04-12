@@ -1,7 +1,7 @@
 <?php
 require_once('gettextinc.php');
 
-$version="1.1.0";
+$version="1.1.1";
 
 set_error_handler("fop2manager_error",E_ALL);
 
@@ -10,6 +10,7 @@ $langs['en_US']="English";
 $langs['es_ES']="Español";
 $langs['fr_FR']="Français";
 $langs['da_DK']="Dansk";
+$langs['el_GR']="Ελληνικά";
 
 if(isset($_SERVER['PATH_INFO'])) {
     define("SELF",  substr($_SERVER['PHP_SELF'], 0, (strlen($_SERVER['PHP_SELF']) - @strlen($_SERVER['PATH_INFO']))));
@@ -113,11 +114,12 @@ if
 } else if
   ($config_engine=='mirtapbx') {
       require_once("functions-mirta.php");
-} else if($config_engine=='custom') {
+} else if
+  ($config_engine=='custom') {
       require_once("functions-custom.php");
 } else if($config_engine=='ombutel') {
       require_once("functions-ombutel.php");
-} else {
+}else {
       require_once("functions-astdb.php");
 }
 

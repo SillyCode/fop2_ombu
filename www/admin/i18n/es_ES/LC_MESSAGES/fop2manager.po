@@ -734,3 +734,6 @@ msgstr "Por favor asigne el campo extensión a alguna columna de datos"
 
 msgid "Tenants"
 msgstr "Inquilinos"
+
+msgid "Version"
+msgstr "Versión"

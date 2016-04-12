@@ -1,6 +1,20 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
 require_once("config.php");
+
+$context   = $_SESSION[MYAP]['context'];
+$extension = $_SESSION[MYAP]['extension'];
+
+$permit    = $_SESSION[MYAP]['permit'];
+$admin     = isset($_SESSION[MYAP]['admin'])?$_SESSION[MYAP]['admin']:0;
+$permisos  = preg_split("/,/",$permit);
+
+if(in_array("callhistory",$permisos) || in_array("all",$permisos)) {
+    $allowed='yes';
+} else {
+    $allowed='no';
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,6 +25,11 @@ if(isset($page_title)) {
 } else {
     echo "    <title>".TITLE."</title>\n";
 }
+
+if($allowed=="no") {
+    echo "<meta http-equiv=\"refresh\" content=\"5\" >\n";
+}
+
 ?>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="imagetoolbar" content="false"/>
@@ -159,19 +178,6 @@ function downloadFile(url,pars) {
 <div class='xcontainer-fluid'>
 <?php
 
-$context   = $_SESSION[MYAP]['context'];
-$extension = $_SESSION[MYAP]['extension'];
-
-$permit    = isset($_SESSION[MYAP]['permit']) ? $_SESSION[MYAP]['permit'] : "all"; //NOTE: this is jsut for test
-$admin     = isset($_SESSION[MYAP]['admin'])?$_SESSION[MYAP]['admin']:0;
-$permisos  = preg_split("/,/",$permit);
-
-if(in_array("callhistory",$permisos) || in_array("all",$permisos)) {
-    $allowed='yes';
-} else {
-    $allowed='no';
-}
-
 if($allowed <> "yes") {
    echo "<div class='container-fluid text-center'><br/>";
    echo "<h3 class='animated tada'>You do not have permissions to access this resource</h3>";
@@ -216,14 +222,14 @@ $condstring="";
 $mifilt = isset($_REQUEST['filterdir']) ? $_REQUEST['filterdir'] : "";
 
 if($mifilt=="") {
-	$condstring ="(src='$extension' OR channel LIKE 'SIP/$extension-________' OR dst='$extension' OR dstchannel LIKE 'SIP/$extension-________' ) ";
+    $condstring ="(src='$extension' OR channel LIKE 'SIP/$extension-________' OR dst='$extension' OR dstchannel LIKE 'SIP/$extension-________' ) ";
 //     $condstring ="(src='$extension' OR channel='$extension' OR dst='$extension' OR dstchannel='$extension') ";
 } else if($mifilt=="inbound") {
-	$condstring ="(dst='$extension' OR dstchannel LIKE 'SIP/$extension-________') ";
+    $condstring ="(dst='$extension' OR dstchannel LIKE 'SIP/$extension-________') ";
 //     $condstring ="(dst='$extension' OR dstchannel='$extension') ";
 } else {
-	$condstring="(src='$extension' OR channel LIKE 'SIP/$extension-________') ";
-    $condstring="(src='$extension' OR channel='$extension') ";
+    $condstring="(src='$extension' OR channel LIKE 'SIP/$extension-________') ";
+//     $condstring="(src='$extension' OR channel='$extension') ";
 }
 
 $customboton="<form class='form-inline'><div class='form-group'>
@@ -315,6 +321,7 @@ $grid->set_input_parent_style("targetextension","style='width:48%; float:right; 
 //$grid->add_validation_type('email','email');
 
 $grid->add_display_filter('number','clickdial');
+
 $grid->show_grid();
 
 function dispoColor($dispo) {
