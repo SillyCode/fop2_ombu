@@ -1,7 +1,15 @@
-#fop2 {
+#fop2, #fop2internal {
 	width: 100%;
 	height: 800px;
 	overflow: auto;
 	position: relative;
 	border:0;
+}
+
+button.fop2popout {
+	float:left;
+}
+
+div.fop2-modal-dialog {
+	width:100%;
 }
