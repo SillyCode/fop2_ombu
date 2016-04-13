@@ -1,0 +1,15 @@
+#fop2_user, #fop2_userinternal {
+	width: 100%;
+	height: 800px;
+	overflow: auto;
+	position: relative;
+	border:0;
+}
+
+button.fop2user_popout {
+	float:left;
+}
+
+div.fop2_user-modal-dialog {
+	width:100%;
+}
