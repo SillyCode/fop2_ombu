@@ -18,6 +18,19 @@ foreach($extensions->data as $extension) {
 	echo "\n";
 }
 
+
+$queues = json_decode(file_get_contents('http://localhost/api/queues'));
+foreach($queues->data as $queue) {
+	echo "[QUEUE/{$queue->extension}]\n";
+	echo "type=queue\n";
+	echo "extension={$queue->extension}\n";
+	echo "label={$queue->description}\n";
+	echo "context=ext-queue\n";
+	echo "queuecontext=cos-all\n";
+	echo "rtmp=0\n";
+	echo "\n";
+}
+
 ?>
 
 
