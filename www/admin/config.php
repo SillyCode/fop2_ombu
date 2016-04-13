@@ -1,6 +1,6 @@
 <?php
 // If FreePBX is installed, use its database auth system by default
-// To set up usernames and passwords
+// To set up usernames and passwords 
 define('USE_FREEPBX_AUTH',false);
 
 // User/Pass to Log into FOP2Manager. If we detect a FreePBX session
@@ -10,16 +10,16 @@ define('USE_FREEPBX_AUTH',false);
 $ADMINUSER = "fop2admin";
 $ADMINPWD  = "fop2admin";
 
-// This database parameters are only needed if you are not using FreePBX,
+// This database parameters are only needed if you are not using FreePBX, 
 // PBX in a Flash, Elastix or Thirdlane 7
-// If any of the above systems config files is found, connections details
+// If any of the above systems config files is found, connections details 
 // on those config files will be used instead of what you set manually here
 
 $DBHOST="localhost";
 $DBUSER="ombutel";
 $DBPASS="ombutel";
 $DBNAME="fop2";
-// include_once("/etc/fop2/webadmin/admin_dbpass.php");
+include_once("/etc/fop2/webadmin/admin_dbpass.php");
 
 
 // This is the preference sqlite database for FOP2 User and Context Preferences
