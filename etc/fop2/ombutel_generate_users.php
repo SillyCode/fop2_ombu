@@ -5,7 +5,8 @@
 //EXTENSIONS
 $extensions = json_decode(file_get_contents('http://localhost/api/extensions'));
 foreach($extensions->data as $extension) {
-	echo "user={$extension->extension}:{$extension->extension}:all\n";
+	echo "user={$extension->extension}:{$extension->extension}:all:all\n";
 }
+echo "buttonfile=ombutel_autobuttons.cfg";
 
 ?>
