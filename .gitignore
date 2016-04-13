@@ -1,5 +1,8 @@
 www/copy_fop2.php
 www/uploads/*
+www/fop2-variablesGENERAL.txt
 etc/fop2/fop2settings.db
 /usr/share/ombutel/modules/fop2/includes/fop/admin
+/usr/share/ombutel/modules/fop2_user/includes/fop/admin
 etc/fop2/*.rpmsave
+some_things.txt
