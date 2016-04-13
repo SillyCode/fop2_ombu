@@ -119,13 +119,16 @@ if
       require_once("functions-custom.php");
 } else if($config_engine=='ombutel') {
       require_once("functions-ombutel.php");
-}else {
+} else {
       require_once("functions-astdb.php");
 }
 
+//if(is_file("/usr/local/fop2/fop2.cfg") || is_file("/etc/asterisk/fop2/fop2.cfg")) {
+//   if(is_file("/usr/local/fop2/fop2.cfg")) {
 if(is_file("/etc/asterisk/fop2.cfg") || is_file("/etc/asterisk/fop2/fop2.cfg")) {
    if(is_file("/etc/asterisk/fop2.cfg")) {
        $fop2conf = parse_conf("/etc/asterisk/fop2.cfg");
+//        $fop2conf = parse_conf("/usr/local/fop2/fop2.cfg");
    }
    if(is_file("/etc/asterisk/fop2/fop2.cfg")) {
        $fop2conf = parse_conf("/etc/asterisk/fop2/fop2.cfg");

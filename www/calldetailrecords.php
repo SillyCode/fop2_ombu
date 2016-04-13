@@ -219,6 +219,7 @@ $grid->set_per_page(8);
 
 $condstring="";
 
+// $mifilt = $_REQUEST['filterdir'];
 $mifilt = isset($_REQUEST['filterdir']) ? $_REQUEST['filterdir'] : "";
 
 if($mifilt=="") {
@@ -241,6 +242,7 @@ $customboton.="</select></div>\n";
 
 $grid->add_custom_toolbar($customboton);
 
+// $mifilt = $_REQUEST['filterdispo'];
 $mifilt = isset($_REQUEST['filterdispo']) ? $_REQUEST['filterdispo'] : "";
 
 if($mifilt<>"") {
