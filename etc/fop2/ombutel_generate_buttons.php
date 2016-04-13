@@ -11,9 +11,8 @@ foreach($extensions->data as $extension) {
 	echo "context=cos-all\n"; //TODO: need to change this
 	echo "label={$extension->name}\n";
 	echo "mailbox={$extension->mailbox}\n";
-// 	extenvoicemail=*621@from-internal
-// 	external=5554444@from-internal
 	echo "privacy=monitor\n";
+	echo "queuechannel=Local/{$extension->extension}@from-queue/n|Penalty=0|MemberName={$extension->name}|StateInterface=SIP/{$extension->extension}\n";
 	echo "customastdb=CF/{$extension->extension}\n";
 	echo "\n";
 }
@@ -32,6 +31,4 @@ foreach($queues->data as $queue) {
 }
 
 ?>
-
-
 
